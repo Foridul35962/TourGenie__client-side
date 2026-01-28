@@ -1,14 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
-const SERVER_URL: string = `${import.meta.env.VITE_SERVER_URL}/api/auth`
+const SERVER_URL: string = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth`
 
+interface registerType {
+    email: string,
+    password: string,
+    fullName: string
+}
 export const registration = createAsyncThunk(
     'auth/registration',
-    async(data, {rejectWithValue})=>{
+    async (data: registerType, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/register`, data,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -17,13 +22,18 @@ export const registration = createAsyncThunk(
         }
     }
 )
+
+interface verifyRegiType {
+    email: string
+    otp: string
+}
 
 export const verifyRegi = createAsyncThunk(
     'auth/verify-regi',
-    async(data, {rejectWithValue})=>{
+    async (data: verifyRegiType, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/verify-regi`, data,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -33,12 +43,16 @@ export const verifyRegi = createAsyncThunk(
     }
 )
 
+interface loginType {
+    email: string,
+    password: string
+}
 export const login = createAsyncThunk(
     'auth/login',
-    async(data, {rejectWithValue})=>{
+    async (data: loginType, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/login`, data,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -50,10 +64,10 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
     'auth/logout',
-    async(_, {rejectWithValue})=>{
+    async (_, { rejectWithValue }) => {
         try {
             const res = await axios.get(`${SERVER_URL}/logout`,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -65,10 +79,10 @@ export const logout = createAsyncThunk(
 
 export const forgetPass = createAsyncThunk(
     'auth/forgetPass',
-    async(data, {rejectWithValue})=>{
+    async (data, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/forget-pass`, data,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -80,10 +94,10 @@ export const forgetPass = createAsyncThunk(
 
 export const verifyPass = createAsyncThunk(
     'auth/verifyPass',
-    async(data, {rejectWithValue})=>{
+    async (data, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/verify-pass`, data,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -95,10 +109,10 @@ export const verifyPass = createAsyncThunk(
 
 export const resetPass = createAsyncThunk(
     'auth/resetPass',
-    async(data, {rejectWithValue})=>{
+    async (data, { rejectWithValue }) => {
         try {
             const res = await axios.patch(`${SERVER_URL}/reset-pass`, data,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -108,12 +122,17 @@ export const resetPass = createAsyncThunk(
     }
 )
 
+interface resendOTPType {
+    email: string,
+    type: 'register' | 'forgetPass'
+}
+
 export const resendOTP = createAsyncThunk(
     'auth/resendOtp',
-    async(data, {rejectWithValue})=>{
+    async (data: resendOTPType, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/resend-otp`, data,
-                {withCredentials: true}
+                { withCredentials: true }
             )
             return res.data
         } catch (error) {
@@ -127,7 +146,7 @@ type authState = {
     authLoading: Boolean
 }
 
-const initialState:authState = {
+const initialState: authState = {
     authLoading: false
 }
 
@@ -135,93 +154,93 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {},
-    extraReducers: (builder)=>{
+    extraReducers: (builder) => {
         //registration
         builder
-            .addCase(registration.pending, (state)=>{
+            .addCase(registration.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(registration.fulfilled, (state)=>{
+            .addCase(registration.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(registration.rejected, (state)=>{
+            .addCase(registration.rejected, (state) => {
                 state.authLoading = false
             })
         //verify
         builder
-            .addCase(verifyRegi.pending, (state)=>{
+            .addCase(verifyRegi.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(verifyRegi.fulfilled, (state)=>{
+            .addCase(verifyRegi.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(verifyRegi.rejected, (state)=>{
+            .addCase(verifyRegi.rejected, (state) => {
                 state.authLoading = false
             })
         //login
         builder
-            .addCase(login.pending, (state)=>{
+            .addCase(login.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(login.fulfilled, (state)=>{
+            .addCase(login.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(login.rejected, (state)=>{
+            .addCase(login.rejected, (state) => {
                 state.authLoading = false
             })
         //logout
         builder
-            .addCase(logout.pending, (state)=>{
+            .addCase(logout.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(logout.fulfilled, (state)=>{
+            .addCase(logout.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(logout.rejected, (state)=>{
+            .addCase(logout.rejected, (state) => {
                 state.authLoading = false
             })
         //forgetPass
         builder
-            .addCase(forgetPass.pending, (state)=>{
+            .addCase(forgetPass.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(forgetPass.fulfilled, (state)=>{
+            .addCase(forgetPass.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(forgetPass.rejected, (state)=>{
+            .addCase(forgetPass.rejected, (state) => {
                 state.authLoading = false
             })
         //verifyPass
         builder
-            .addCase(verifyPass.pending, (state)=>{
+            .addCase(verifyPass.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(verifyPass.fulfilled, (state)=>{
+            .addCase(verifyPass.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(verifyPass.rejected, (state)=>{
+            .addCase(verifyPass.rejected, (state) => {
                 state.authLoading = false
             })
         //resetPass
         builder
-            .addCase(resetPass.pending, (state)=>{
+            .addCase(resetPass.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(resetPass.fulfilled, (state)=>{
+            .addCase(resetPass.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(resetPass.rejected, (state)=>{
+            .addCase(resetPass.rejected, (state) => {
                 state.authLoading = false
             })
         //resendOtp
         builder
-            .addCase(resendOTP.pending, (state)=>{
+            .addCase(resendOTP.pending, (state) => {
                 state.authLoading = true
             })
-            .addCase(resendOTP.fulfilled, (state)=>{
+            .addCase(resendOTP.fulfilled, (state) => {
                 state.authLoading = false
             })
-            .addCase(resendOTP.rejected, (state)=>{
+            .addCase(resendOTP.rejected, (state) => {
                 state.authLoading = false
             })
     }
