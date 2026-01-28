@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios"
 import { login, logout } from "./authSlice"
 
 
-const SERVER_URL: string = `${import.meta.env.VITE_SERVER_URL}/api/user`
+const SERVER_URL: string = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user`
 
 export const getUser = createAsyncThunk(
     'auth/getUser',
