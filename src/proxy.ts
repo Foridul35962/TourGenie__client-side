@@ -15,11 +15,15 @@ export function proxy (req:NextRequest) {
         return NextResponse.next()
     }
 
+    const token = req.cookies.get('token')?.value
+    
     const isPublic = PUBLIC_ROUTES.some((p)=>pathname.startsWith(p))
     if (isPublic) {
+        if (token) {
+            return NextResponse.redirect(new URL('/', req.url))
+        }
         return NextResponse.next()
     }
-    const token = req.cookies.get('token')?.value
     if (!token) {
         const url = req.nextUrl.clone()
         url.pathname = '/login'
