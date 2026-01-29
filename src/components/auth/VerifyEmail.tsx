@@ -5,9 +5,15 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { toast } from 'react-toastify';
-import { resendOTP, verifyRegi } from '@/store/slice/authSlice';
+import { resendOTP, verifyPass, verifyRegi } from '@/store/slice/authSlice';
 
-const VerifyEmail = ({ email, type }: { email: string, type: 'register' | 'forgetPass' }) => {
+interface VerifyEmailType {
+    email: string,
+    type: 'register' | 'forgetPass',
+    setVerified?: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const VerifyEmail = ({ email, type, setVerified }: VerifyEmailType) => {
     const router = useRouter();
     const { authLoading } = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch<AppDispatch>()
@@ -58,9 +64,16 @@ const VerifyEmail = ({ email, type }: { email: string, type: 'register' | 'forge
             return;
         }
         try {
-            await dispatch(verifyRegi({ email, otp: otpCode })).unwrap()
-            toast.success('Registration successful')
-            router.push('/login')
+            if (type === 'register') {
+                await dispatch(verifyRegi({ email, otp: otpCode })).unwrap()
+                toast.success('Registration successful')
+                router.push('/login')
+            } else if (type === 'forgetPass') {
+                await dispatch(verifyPass({ email, otp: otpCode })).unwrap()
+                if (setVerified !== undefined) {
+                    setVerified(true)
+                }
+            }
         } catch (err: any) {
             toast.error(err.message || "Invalid OTP")
         }

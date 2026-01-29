@@ -77,9 +77,13 @@ export const logout = createAsyncThunk(
     }
 )
 
+interface forgetPassType {
+    email: string
+}
+
 export const forgetPass = createAsyncThunk(
     'auth/forgetPass',
-    async (data, { rejectWithValue }) => {
+    async (data: forgetPassType, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/forget-pass`, data,
                 { withCredentials: true }
@@ -92,9 +96,14 @@ export const forgetPass = createAsyncThunk(
     }
 )
 
+interface verifyPassType {
+    email: string,
+    otp: string
+}
+
 export const verifyPass = createAsyncThunk(
     'auth/verifyPass',
-    async (data, { rejectWithValue }) => {
+    async (data: verifyPassType, { rejectWithValue }) => {
         try {
             const res = await axios.post(`${SERVER_URL}/verify-pass`, data,
                 { withCredentials: true }
@@ -107,9 +116,14 @@ export const verifyPass = createAsyncThunk(
     }
 )
 
+interface resetPassType {
+    email: string,
+    password: string
+}
+
 export const resetPass = createAsyncThunk(
     'auth/resetPass',
-    async (data, { rejectWithValue }) => {
+    async (data: resetPassType, { rejectWithValue }) => {
         try {
             const res = await axios.patch(`${SERVER_URL}/reset-pass`, data,
                 { withCredentials: true }
