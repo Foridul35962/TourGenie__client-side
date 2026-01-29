@@ -25,7 +25,9 @@ const LoginForm = () => {
         try {
             await dispatch(login(data)).unwrap()
             toast.success('login successfully')
-            router.push('/')
+            const next = new URLSearchParams(window.location.search).get('next') || '/'
+            router.replace(next)
+            router.refresh()
         } catch (error: any) {
             toast.error(error.message)
         }
