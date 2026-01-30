@@ -9,21 +9,18 @@ export function proxy (req:NextRequest) {
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
-        pathname === '/favicon.ico' ||
-        pathname.match(/\.(.*)$/)
+        pathname === '/favicon.ico' 
     ) {
+        return NextResponse.next()
+    }
+    
+    const isPublic = PUBLIC_ROUTES.some((p)=>pathname.startsWith(p))
+    if (isPublic) {
         return NextResponse.next()
     }
 
     const token = req.cookies.get('token')?.value
-    
-    const isPublic = PUBLIC_ROUTES.some((p)=>pathname.startsWith(p))
-    if (isPublic) {
-        if (token) {
-            return NextResponse.redirect(new URL('/', req.url))
-        }
-        return NextResponse.next()
-    }
+
     if (!token) {
         const url = req.nextUrl.clone()
         url.pathname = '/login'
