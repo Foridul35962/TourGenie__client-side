@@ -4,20 +4,45 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../asset/logo.png';
-import { Menu, X, ChevronRight, LogOut } from 'lucide-react'; // LogOut আইকনটি আনা হয়েছে
+import { Menu, X, ChevronRight, LogOut } from 'lucide-react';
+import avatar from '../../asset/avatar.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store/store';
+import { logout } from '@/store/slice/authSlice';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [showMenu, setShowMenu] = useState<boolean>(false)
+    const { user } = useSelector((state: RootState) => state.user)
+    const dispatch = useDispatch<AppDispatch>()
+    const router = useRouter()
 
     const menuOption = [
         { name: 'view plan', path: '/view-plan' },
         { name: 'contact us', path: '/contact' }
     ];
 
-    const handleLogout = () => {
-        // এখানে তোমার লগআউট লজিক (যেমন: টোকেন রিমুভ বা রেডক্স ডিসপ্যাচ) কল করবে
-        console.log("Logged out");
+    const handleLogout = async () => {
+        if (window.confirm('Are you want to logged out?')) {
+            try {
+                await dispatch(logout()).unwrap()
+                setShowMenu(false)
+                toast.success('User logged out successfully')
+            } catch (error: any) {
+                toast.error(error.message)
+            }
+        }
     };
+
+    const handleShowMenu = () => {
+        if (!user) {
+            router.push('/login')
+        } else {
+            setShowMenu(!showMenu)
+        }
+    }
 
     return (
         <nav className="fixed w-full z-50 top-0 bg-white border-b border-gray-100 shadow-sm">
@@ -53,23 +78,51 @@ const Navbar = () => {
                                 </Link>
                             ))}
                         </div>
-                        
-                        <div className="flex items-center gap-4">
-                            {/* Logout Button (Desktop) */}
-                            <button 
-                                onClick={handleLogout}
-                                className="flex items-center gap-2 text-gray-600 hover:text-red-600 text-sm font-bold transition-all"
-                            >
-                                <LogOut size={18} />
-                                <span>LOGOUT</span>
-                            </button>
 
+                        <div className="flex items-center gap-4">
                             <Link
                                 href="/create-plan"
                                 className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-red-200 active:scale-95"
                             >
                                 Get Started
                             </Link>
+                            <div className="relative">
+                                {/* Avatar Image */}
+                                <Image
+                                    src={avatar}
+                                    alt="avatar"
+                                    width={36}
+                                    height={36}
+                                    className="cursor-pointer rounded-full border-2 border-transparent hover:border-gray-200 transition-all"
+                                    onClick={handleShowMenu}
+                                />
+
+                                {showMenu && (
+                                    <>
+                                        <div
+                                            className="fixed inset-0 z-10"
+                                            onClick={() => setShowMenu(false)}
+                                        />
+
+                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-20 py-2 overflow-hidden">
+                                            {/* User Info Section */}
+                                            <div className="px-4 py-3 border-b border-gray-50 mb-1">
+                                                <p className="text-xs text-gray-400 uppercase font-semibold tracking-wider">Welcome</p>
+                                                <p className="text-sm font-bold text-gray-800 truncate">{user?.fullName}</p>
+                                            </div>
+
+                                            {/* Logout Button */}
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full cursor-pointer text-red-600 flex items-center gap-3 px-4 py-2 text-sm font-medium hover:bg-red-50 hover:text-red-600 transition-colors"
+                                            >
+                                                <LogOut size={16} />
+                                                <span>Logout</span>
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -116,7 +169,7 @@ const Navbar = () => {
 
                     {/* Logout Button (Mobile) */}
                     <div className="mt-auto">
-                        <button 
+                        <button
                             onClick={() => { handleLogout(); setIsOpen(false); }}
                             className="w-full flex items-center justify-center gap-3 py-3 text-red-600 font-bold border border-red-100 rounded-xl bg-red-50 hover:bg-red-100 transition-all"
                         >
