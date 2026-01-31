@@ -47,16 +47,16 @@ const ResetPass = ({ email }: { email: string }) => {
     }
 
     return (
-        <div className='min-h-screen w-full flex items-center justify-center bg-[#0f0f0f] relative overflow-hidden px-4'>
+        <div className='min-h-screen w-full flex items-center justify-center bg-white relative overflow-hidden px-4'>
             {/* Background Red Glows */}
-            <div className="absolute w-80 h-80 bg-red-600 rounded-full blur-[140px] opacity-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+            <div className="absolute w-80 h-80 bg-red-600 rounded-full blur-[140px] opacity-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
-            <div className="max-w-md w-full bg-[#1a1a1a] p-10 rounded-2xl border border-red-900/30 shadow-2xl z-10 relative">
+            <div className="max-w-md w-full bg-white p-10 rounded-2xl border border-red-200 shadow-xl z-10 relative">
                 <div className="text-center">
-                    <h2 className="text-4xl font-extrabold text-white tracking-tight">
+                    <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
                         Update <span className="text-red-600">Access</span>
                     </h2>
-                    <p className="mt-2 text-sm text-gray-400">
+                    <p className="mt-2 text-sm text-gray-600">
                         Secure your account with a new password
                     </p>
                 </div>
@@ -64,13 +64,13 @@ const ResetPass = ({ email }: { email: string }) => {
                 <form className="mt-8 space-y-5" onSubmit={handleSubmit(handleOnSubmit)}>
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">
                                 New Password
                             </label>
                             <input
                                 type="password"
                                 {...register("password")}
-                                className="w-full px-4 py-3 bg-[#262626] border border-gray-800 text-white rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
                                 placeholder="••••••••"
                             />
                             {errors.password?.message && (
@@ -80,7 +80,7 @@ const ResetPass = ({ email }: { email: string }) => {
 
                         {/* password validation */}
                         <div className="flex gap-1 flex-col *:flex *:gap-1 *:items-center">
-                            <div className={alphabetValidate ? "text-green-600" : "text-gray-500"}>
+                            <div className={alphabetValidate ? "text-green-600" : "text-gray-400"}>
                                 {alphabetValidate ? (
                                     <CircleCheckBig className="size-4" />
                                 ) : (
@@ -89,7 +89,7 @@ const ResetPass = ({ email }: { email: string }) => {
                                 <p>At least one Alphabet</p>
                             </div>
 
-                            <div className={numberValidate ? "text-green-600" : "text-gray-500"}>
+                            <div className={numberValidate ? "text-green-600" : "text-gray-400"}>
                                 {numberValidate ? (
                                     <CircleCheckBig className="size-4" />
                                 ) : (
@@ -98,7 +98,7 @@ const ResetPass = ({ email }: { email: string }) => {
                                 <p>At least one number</p>
                             </div>
 
-                            <div className={lengthValidate ? "text-green-600" : "text-gray-500"}>
+                            <div className={lengthValidate ? "text-green-600" : "text-gray-400"}>
                                 {lengthValidate ? (
                                     <CircleCheckBig className="size-4" />
                                 ) : (

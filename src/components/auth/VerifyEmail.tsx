@@ -93,20 +93,20 @@ const VerifyEmail = ({ email, type, setVerified }: VerifyEmailType) => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0f0f0f] relative overflow-hidden px-4">
-            <div className="absolute w-96 h-96 bg-red-600 rounded-full blur-[150px] opacity-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+        <div className="min-h-screen flex items-center justify-center bg-white relative overflow-hidden px-4">
+            <div className="absolute w-96 h-96 bg-red-600 rounded-full blur-[150px] opacity-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
 
-            <div className="max-w-md w-full bg-[#1a1a1a] p-10 rounded-2xl border border-red-900/30 shadow-2xl z-10 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600/10 rounded-full mb-6 border border-red-600/20">
+            <div className="max-w-md w-full bg-white p-10 rounded-2xl border border-red-200 shadow-xl z-10 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-red-50 rounded-full mb-6 border border-red-200">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                 </div>
 
-                <h2 className="text-3xl font-extrabold text-white uppercase tracking-tight">Verify Email</h2>
-                <p className="mt-3 text-sm text-gray-400">
+                <h2 className="text-3xl font-extrabold text-gray-900 uppercase tracking-tight">Verify Email</h2>
+                <p className="mt-3 text-sm text-gray-600">
                     Enter the 6-digit code sent to <br />
-                    <span className="text-white font-medium">{email}</span>
+                    <span className="text-gray-900 font-medium">{email}</span>
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-8 space-y-8">
@@ -120,7 +120,7 @@ const VerifyEmail = ({ email, type, setVerified }: VerifyEmailType) => {
                                 ref={(el) => { inputRefs.current[index] = el; }}
                                 onChange={(e) => handleChange(e.target.value, index)}
                                 onKeyDown={(e) => handleKeyDown(e, index)}
-                                className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-[#262626] border border-gray-800 text-white rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all duration-200"
+                                className="w-10 h-12 sm:w-12 sm:h-14 text-center text-xl font-bold bg-gray-50 border border-gray-300 text-gray-900 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all duration-200"
                             />
                         ))}
                     </div>
@@ -133,13 +133,13 @@ const VerifyEmail = ({ email, type, setVerified }: VerifyEmailType) => {
                         {authLoading ? 'Verifying...' : 'Verify & Proceed'}
                     </button>
 
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-gray-600">
                         {canResend ? (
                             <p>
                                 Didn't receive code?{" "}
                                 <button
                                     type="button"
-                                    className="text-red-500 font-bold cursor-pointer hover:text-red-400 transition-colors"
+                                    className="text-red-600 font-bold cursor-pointer hover:text-red-700 transition-colors"
                                     onClick={handleResendOtp}
                                 >
                                     Resend Code
@@ -147,7 +147,7 @@ const VerifyEmail = ({ email, type, setVerified }: VerifyEmailType) => {
                             </p>
                         ) : (
                             <p>
-                                Resend code in <span className="text-red-500 font-mono font-bold">{timeLeft}s</span>
+                                Resend code in <span className="text-red-600 font-mono font-bold">{timeLeft}s</span>
                             </p>
                         )}
                     </div>

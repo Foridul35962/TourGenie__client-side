@@ -1,18 +1,19 @@
 "use client"
 
+import FirstLoading from '@/components/common/FirstLoading'
 import { RootState } from '@/store/store'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
 const PublicProviders = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useSelector((state: RootState) => state.user)
-  if (user) {
+  const { user, userLoading } = useSelector((state: RootState) => state.user)
+  if (user && !userLoading) {
     redirect('/')
   }
   return (
     <>
-      {children}
+      {userLoading ? <FirstLoading /> : children}
     </>
   )
 }

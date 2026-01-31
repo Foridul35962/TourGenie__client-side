@@ -47,25 +47,25 @@ const RegisterForm = ({ setEmail }: { setEmail: React.Dispatch<React.SetStateAct
   };
 
   return (
-    <div className="max-w-md w-full bg-[#1a1a1a] p-10 rounded-2xl border border-red-900/30 shadow-2xl z-10 mx-4">
+    <div className="max-w-md w-full bg-white p-10 rounded-2xl border border-red-200 shadow-xl z-10 mx-4">
       <div className="text-center">
-        <h2 className="text-4xl font-extrabold text-white tracking-tight">
+        <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
           Tour <span className="text-red-600">Genie</span>
         </h2>
-        <p className="mt-2 text-sm text-gray-400">
+        <p className="mt-2 text-sm text-gray-600">
           Start your AI-powered journey today
         </p>
       </div>
       <form className="mt-8 space-y-5" onSubmit={handleSubmit(handleOnSubmit)}>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">
               Full Name
             </label>
             <input
               type="text"
               {...register("fullName")}
-              className="w-full px-4 py-3 bg-[#262626] border border-gray-800 text-white rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
               placeholder="Foridul Ibne Qauser"
             />
             {errors.fullName?.message && (
@@ -74,13 +74,13 @@ const RegisterForm = ({ setEmail }: { setEmail: React.Dispatch<React.SetStateAct
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">
               Email Address
             </label>
             <input
               type="email"
               {...register("email")}
-              className="w-full px-4 py-3 bg-[#262626] border border-gray-800 text-white rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
               placeholder="name@example.com"
             />
             {errors.email?.message && (
@@ -89,13 +89,13 @@ const RegisterForm = ({ setEmail }: { setEmail: React.Dispatch<React.SetStateAct
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1.5 ml-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">
               Password
             </label>
             <input
               type="password"
               {...register("password")}
-              className="w-full px-4 py-3 bg-[#262626] border border-gray-800 text-white rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-xl focus:ring-2 focus:ring-red-600 outline-none transition-all"
               placeholder="••••••••"
             />
             {errors.password?.message && (
@@ -105,7 +105,7 @@ const RegisterForm = ({ setEmail }: { setEmail: React.Dispatch<React.SetStateAct
 
           {/* password validation */}
           <div className="flex gap-1 flex-col *:flex *:gap-1 *:items-center">
-            <div className={alphabetValidate ? "text-green-600" : "text-gray-500"}>
+            <div className={alphabetValidate ? "text-green-600" : "text-gray-400"}>
               {alphabetValidate ? (
                 <CircleCheckBig className="size-4" />
               ) : (
@@ -114,7 +114,7 @@ const RegisterForm = ({ setEmail }: { setEmail: React.Dispatch<React.SetStateAct
               <p>At least one Alphabet</p>
             </div>
 
-            <div className={numberValidate ? "text-green-600" : "text-gray-500"}>
+            <div className={numberValidate ? "text-green-600" : "text-gray-400"}>
               {numberValidate ? (
                 <CircleCheckBig className="size-4" />
               ) : (
@@ -123,7 +123,7 @@ const RegisterForm = ({ setEmail }: { setEmail: React.Dispatch<React.SetStateAct
               <p>At least one number</p>
             </div>
 
-            <div className={lengthValidate ? "text-green-600" : "text-gray-500"}>
+            <div className={lengthValidate ? "text-green-600" : "text-gray-400"}>
               {lengthValidate ? (
                 <CircleCheckBig className="size-4" />
               ) : (
@@ -143,9 +143,9 @@ const RegisterForm = ({ setEmail }: { setEmail: React.Dispatch<React.SetStateAct
         </button>
       </form>
       <div className="mt-8 text-center">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-600">
           Already have an account?{' '}
-          <Link href="/login" className="font-bold text-red-500 hover:text-red-400 transition-colors">
+          <Link href="/login" className="font-bold text-red-500 hover:text-red-600 transition-colors">
             Sign In
           </Link>
         </p>
