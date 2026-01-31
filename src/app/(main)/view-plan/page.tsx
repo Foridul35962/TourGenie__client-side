@@ -1,7 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import { Calendar, MapPin, DollarSign, Clock, Star, ArrowRight, Sparkles } from 'lucide-react';
+import { MapPin, DollarSign, Clock, Star, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import placeholderImage from '@/asset/placeholder.jpg'
 
 const SAMPLE_PLANS = [
   {
@@ -38,7 +39,7 @@ const SAMPLE_PLANS = [
 
 const ViewPlan = () => {
   return (
-    <div className="min-h-screen bg-white pt-24 pb-20">
+    <div className="min-h-screen bg-white pt-10 pb-20">
       {/* Background Glow */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-red-50 rounded-full blur-[120px] -z-10 opacity-60"></div>
 
@@ -61,9 +62,12 @@ const ViewPlan = () => {
             <div key={plan.id} className="group bg-white rounded-[32px] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-red-500/5 transition-all duration-500">
               {/* Image Section */}
               <div className="relative h-64 overflow-hidden">
-                <img 
-                  src={plan.image} 
+                <Image
+                  src={plan.image}
                   alt={plan.title}
+                  fill
+                  placeholder='blur'
+                  blurDataURL={placeholderImage.src}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full shadow-sm">
@@ -99,14 +103,6 @@ const ViewPlan = () => {
                     <span className="text-sm font-bold">{plan.budget.split(' ')[0]}</span>
                   </div>
                 </div>
-
-                <Link 
-                  href={`/view-plan/${plan.id}`}
-                  className="w-full flex items-center justify-center gap-2 py-4 bg-slate-50 hover:bg-red-600 text-slate-900 hover:text-white rounded-2xl font-black text-sm uppercase tracking-widest transition-all group-hover:shadow-lg active:scale-95"
-                >
-                  View Full Details
-                  <ArrowRight size={18} />
-                </Link>
               </div>
             </div>
           ))}
@@ -114,12 +110,14 @@ const ViewPlan = () => {
 
         {/* CTA Bottom */}
         <div className="mt-24 p-12 bg-slate-950 rounded-[48px] text-center relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-[100px] opacity-20"></div>
-           <h2 className="text-3xl font-black text-white mb-6 relative z-10">Didn't find what you're looking for?</h2>
-           <Link href="/create-plan" className="inline-flex items-center gap-2 bg-red-600 text-white px-10 py-4 rounded-full font-black uppercase tracking-widest text-sm hover:bg-red-700 transition-all relative z-10 shadow-xl shadow-red-900/40">
-              Create Your Own AI Plan
-              <Sparkles size={18} />
-           </Link>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-red-600 rounded-full blur-[100px] opacity-20"></div>
+          <h2 className="text-3xl font-black text-white mb-6 relative z-10">Didn't find what you're looking for?</h2>
+          <Link
+            href="/create-plan"
+            className="inline-flex items-center gap-2 bg-red-600 text-white px-10 py-4 rounded-full font-black uppercase tracking-widest text-sm hover:bg-red-700 transition-all relative z-10 shadow-xl shadow-red-900/40">
+            Create Your Own AI Plan
+            <Sparkles size={18} />
+          </Link>
         </div>
       </div>
     </div>

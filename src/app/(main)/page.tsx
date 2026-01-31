@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-8 overflow-hidden">
+      <section className="relative py-10 lg:py-8 overflow-hidden">
         {/* Soft Background Glows */}
         <div className="absolute top-0 right-0 w-125 h-125 bg-red-50 rounded-full blur-[120px] -z-10 opacity-60"></div>
         <div className="absolute bottom-0 left-0 w-125 h-125 bg-red-50 rounded-full blur-[120px] -z-10 opacity-60"></div>

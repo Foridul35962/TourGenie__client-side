@@ -10,17 +10,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/store/store';
 import { logout } from '@/store/slice/authSlice';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [showMenu, setShowMenu] = useState<boolean>(false)
     const { user } = useSelector((state: RootState) => state.user)
     const dispatch = useDispatch<AppDispatch>()
-    const router = useRouter()
 
     const menuOption = [
         { name: 'view plan', path: '/view-plan' },
+        { name: 'my plan', path: '/my-plan', protect: true },
         { name: 'contact us', path: '/contact' }
     ];
 
@@ -35,14 +34,6 @@ const Navbar = () => {
             }
         }
     };
-
-    const handleShowMenu = () => {
-        if (!user) {
-            router.push('/login')
-        } else {
-            setShowMenu(!showMenu)
-        }
-    }
 
     return (
         <nav className="fixed w-full z-50 top-0 bg-white border-b border-gray-100 shadow-sm">
@@ -72,7 +63,7 @@ const Navbar = () => {
                                 <Link
                                     key={option.name}
                                     href={option.path}
-                                    className="text-gray-600 hover:text-red-600 text-sm font-semibold uppercase tracking-wider transition-all duration-200"
+                                    className={`${option.protect && !user ? 'hidden' : 'inline-block'}  text-gray-600 hover:text-red-600 text-sm font-semibold uppercase tracking-wider transition-all duration-200`}
                                 >
                                     {option.name}
                                 </Link>
@@ -86,43 +77,46 @@ const Navbar = () => {
                             >
                                 Get Started
                             </Link>
-                            <div className="relative">
-                                {/* Avatar Image */}
-                                <Image
-                                    src={avatar}
-                                    alt="avatar"
-                                    width={36}
-                                    height={36}
-                                    className="cursor-pointer rounded-full border-2 border-transparent hover:border-gray-200 transition-all"
-                                    onClick={handleShowMenu}
-                                />
+                            {
+                                user &&
+                                <div className="relative">
+                                    {/* Avatar Image */}
+                                    <Image
+                                        src={avatar}
+                                        alt="avatar"
+                                        width={36}
+                                        height={36}
+                                        className="cursor-pointer rounded-full border-2 border-transparent hover:border-gray-200 transition-all"
+                                        onClick={() => setShowMenu(!showMenu)}
+                                    />
 
-                                {showMenu && (
-                                    <>
-                                        <div
-                                            className="fixed inset-0 z-10"
-                                            onClick={() => setShowMenu(false)}
-                                        />
+                                    {showMenu && (
+                                        <>
+                                            <div
+                                                className="fixed inset-0 z-10"
+                                                onClick={() => setShowMenu(false)}
+                                            />
 
-                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-20 py-2 overflow-hidden">
-                                            {/* User Info Section */}
-                                            <div className="px-4 py-3 border-b border-gray-50 mb-1">
-                                                <p className="text-xs text-gray-400 uppercase font-semibold tracking-wider">Welcome</p>
-                                                <p className="text-sm font-bold text-gray-800 truncate">{user?.fullName}</p>
+                                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-20 py-2 overflow-hidden">
+                                                {/* User Info Section */}
+                                                <div className="px-4 py-3 border-b border-gray-50 mb-1">
+                                                    <p className="text-xs text-gray-400 uppercase font-semibold tracking-wider">Welcome</p>
+                                                    <p className="text-sm font-bold text-gray-800 truncate">{user?.fullName}</p>
+                                                </div>
+
+                                                {/* Logout Button */}
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="w-full cursor-pointer text-red-600 flex items-center gap-3 px-4 py-2 text-sm font-medium hover:bg-red-50 hover:text-red-600 transition-colors"
+                                                >
+                                                    <LogOut size={16} />
+                                                    <span>Logout</span>
+                                                </button>
                                             </div>
-
-                                            {/* Logout Button */}
-                                            <button
-                                                onClick={handleLogout}
-                                                className="w-full cursor-pointer text-red-600 flex items-center gap-3 px-4 py-2 text-sm font-medium hover:bg-red-50 hover:text-red-600 transition-colors"
-                                            >
-                                                <LogOut size={16} />
-                                                <span>Logout</span>
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            }
                         </div>
                     </div>
 
