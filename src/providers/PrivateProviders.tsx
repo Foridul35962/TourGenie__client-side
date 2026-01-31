@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux'
 const PrivateProviders = ({ children }: { children: React.ReactNode }) => {
     const { user, userLoading } = useSelector((state: RootState) => state.user)
     if (!user && !userLoading) {
-        console.log('user', user, 'loading:', userLoading)
         redirect('/login')
     }
     return (
