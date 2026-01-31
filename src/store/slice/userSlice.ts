@@ -22,7 +22,7 @@ export const getUser = createAsyncThunk(
 
 type userState = {
     userLoading: Boolean,
-    user: Object | null
+    user: any
 }
 
 const initialState: userState = {
@@ -43,7 +43,7 @@ const userSlice = createSlice({
         //logout
         builder
             .addCase(logout.fulfilled, (state) => {
-                state.user = {}
+                state.user = null
             })
         //getuser
         builder
