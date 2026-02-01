@@ -72,7 +72,7 @@ const Navbar = () => {
 
                         <div className="flex items-center gap-4">
                             <Link
-                                href="/create-plan"
+                                href={`${user? '/create-plan' : '/login'}`}
                                 className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-red-200 active:scale-95"
                             >
                                 Get Started
@@ -123,7 +123,7 @@ const Navbar = () => {
                     {/* Mobile Controls */}
                     <div className="md:hidden flex items-center gap-3">
                         <Link
-                            href="/create-plan"
+                            href={`${user? '/create-plan' : '/login'}`}
                             className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full text-xs font-bold transition-all shadow-md active:scale-95"
                         >
                             Get Started
