@@ -1,16 +1,26 @@
 "use client";
 
 import React, { SetStateAction, useState } from 'react';
-import { Sparkles, ArrowRight, Wand2, Map, ShieldCheck, Globe2, Calendar, Wallet } from 'lucide-react';
+import { Sparkles, ArrowRight, Map, ShieldCheck, Globe2, Calendar, Wallet, Loader2 } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store/store';
+import { searchField } from '@/store/slice/aiSlice';
+import { toast } from 'react-toastify';
 
 const Hero = ({ setReady }: { setReady: React.Dispatch<SetStateAction<boolean>> }) => {
     const [prompt, setPrompt] = useState<string>("")
+    const { aiLoading } = useSelector((state: RootState) => state.ai)
+    const dispatch = useDispatch<AppDispatch>()
 
-    const handleGenerate = (e: React.FormEvent) => {
+    const handleGenerate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!prompt.trim()) return;
-        setReady(true)
-        console.log("AI Request:", prompt);
+        try {
+            await dispatch(searchField({ prompt })).unwrap()
+            setReady(true)
+        } catch (error: any) {
+            toast.error(error.message)
+        }
     };
 
     const suggestions = [
@@ -50,11 +60,23 @@ const Hero = ({ setReady }: { setReady: React.Dispatch<SetStateAction<boolean>> 
                             />
                             <button
                                 type="submit"
-                                disabled={!prompt.trim()}
-                                className="w-full md:w-auto bg-red-600 cursor-pointer hover:bg-red-700 disabled:bg-slate-100 disabled:text-slate-400 text-white px-10 py-5 rounded-[24px] font-black text-sm uppercase tracking-widest transition-all active:scale-95 flex items-center justify-center gap-3 shadow-xl shadow-red-200/50"
+                                disabled={!prompt.trim() || aiLoading}
+                                className="group relative w-full md:w-auto bg-red-600 hover:bg-red-700 disabled:bg-slate-200 disabled:text-slate-500 disabled:cursor-not-allowed text-white px-10 py-5 rounded-2xl font-bold text-sm uppercase tracking-[0.2em] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3 shadow-lg shadow-red-500/30 overflow-hidden"
                             >
-                                Get Start
-                                <ArrowRight size={18} />
+                                {aiLoading ? (
+                                    <>
+                                        <Loader2 className="animate-spin" size={20} />
+                                        <span>Processing...</span>
+                                    </>
+                                ) : (
+                                    <div className="flex items-center gap-3">
+                                        <span>Get Started</span>
+                                        <ArrowRight
+                                            size={18}
+                                            className="group-hover:translate-x-1 transition-transform"
+                                        />
+                                    </div>
+                                )}
                             </button>
                         </div>
                     </form>
