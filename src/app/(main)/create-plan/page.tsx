@@ -15,12 +15,12 @@ const CreatePlan = () => {
   return (
     <div>
       {
-        !ready ? <Hero setReady={setReady}/> : (!plans ? <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
+        !ready ? <Hero setReady={setReady} /> : (!plans ? <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
           <ChatPage />
           <Map />
         </div> :
-          <TripPlan plans={plans}/>
-      )
+          <TripPlan plans={plans} task={"save"} />
+        )
       }
     </div>
   );

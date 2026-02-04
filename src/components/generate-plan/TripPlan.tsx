@@ -1,12 +1,34 @@
+"use client"
+
 import Image from 'next/image';
 import {
   Bus, MapPin, Calendar, Users, Wallet,
   Utensils, Info, CheckCircle2, Navigation, Hotel,
-  Clock, Lightbulb, TrendingUp, ArrowRight
+  Clock, Lightbulb, TrendingUp, ArrowRight,
+  Star
 } from 'lucide-react';
 import placeholder from '@/asset/placeholder.jpg';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/store/store';
+import { savePlan } from '@/store/slice/tripPlanSlice';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
-const TripPlan = ({ plans }: { plans: any }) => {
+const TripPlan = ({ plans, task }: { plans: any, task?: string }) => {
+  const dispatch = useDispatch<AppDispatch>()
+  const router = useRouter()
+  const { tripLoading } = useSelector((state: RootState) => state.tripPlan)
+
+  const handleSave = async () => {
+    try {
+      await dispatch(savePlan({ plans })).unwrap()
+      toast.success('Plan saved')
+      router.push('/my-plan')
+    } catch (error: any) {
+      console.log(error)
+      toast.error(error.message)
+    }
+  }
 
   if (!plans) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white">
@@ -21,14 +43,35 @@ const TripPlan = ({ plans }: { plans: any }) => {
       <div className="absolute top-0 right-0 w-150 h-150 bg-red-50/40 rounded-full blur-[120px] -z-10"></div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
         {/* --- HERO SECTION --- */}
         <div className="mb-20">
-          <div className="flex items-center gap-2 text-red-600 mb-6">
-            <div className="p-2 bg-red-50 rounded-lg">
-              <Navigation size={18} />
+          <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8'>
+            {/* Left Side: Brand/Logic Tag */}
+            <div className="flex items-center gap-2 text-red-600">
+              <div className="p-2 bg-red-50 rounded-lg">
+                <Navigation size={18} />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-[0.4em]">
+                Proprietary AI Logic
+              </span>
             </div>
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Proprietary AI Logic</span>
+
+            {task === "save" && (
+              <div className="w-full sm:w-auto flex justify-end">
+                <button
+                  disabled={tripLoading}
+                  className="flex items-center gap-2 bg-red-600 hover:bg-red-700 disabled:bg-slate-300 cursor-pointer text-white px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-xl shadow-red-200 active:scale-95 disabled:cursor-not-allowed"
+                  onClick={handleSave}
+                >
+                  {tripLoading ? (
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <Star size={16} className="fill-white" />
+                  )}
+                  {tripLoading ? "Saving..." : "Save Plan"}
+                </button>
+              </div>
+            )}
           </div>
           <h1 className="text-6xl lg:text-8xl font-[1000] text-slate-900 tracking-tighter mb-10 leading-[0.95]">
             {plans.tripName}
