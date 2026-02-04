@@ -67,6 +67,8 @@ const aiSlice = createSlice({
         builder
             .addCase(searchField.pending, (state) => {
                 state.aiLoading = true
+                state.allFields = {}
+                state.plans = null
             })
             .addCase(searchField.fulfilled, (state, action) => {
                 state.aiLoading = false
@@ -79,6 +81,7 @@ const aiSlice = createSlice({
         builder
             .addCase(createPlan.pending, (state) => {
                 state.aiLoading = true
+                state.plans = null
             })
             .addCase(createPlan.fulfilled, (state, action) => {
                 state.aiLoading = false

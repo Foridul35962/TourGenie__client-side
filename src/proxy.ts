@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import {NextResponse} from 'next/server'
 
-const PUBLIC_ROUTES = ['/login', '/registration', '/forgetPass', '/', '/view-plan']
+const PUBLIC_ROUTES = ['/login', '/registration', '/forgetPass', '/view-plan']
 
 export function proxy (req:NextRequest) {
     const {pathname} = req.nextUrl
@@ -14,7 +14,7 @@ export function proxy (req:NextRequest) {
         return NextResponse.next()
     }
     
-    const isPublic = PUBLIC_ROUTES.some((p)=>pathname.startsWith(p))
+    const isPublic = pathname === "/" || PUBLIC_ROUTES.some((p)=>pathname.startsWith(p))
     if (isPublic) {
         return NextResponse.next()
     }
