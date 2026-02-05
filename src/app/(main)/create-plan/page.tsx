@@ -17,7 +17,9 @@ const CreatePlan = () => {
       {
         !ready ? <Hero setReady={setReady} /> : (!plans ? <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
           <ChatPage />
-          <Map />
+          <div className="h-[60vh] lg:h-[calc(100vh-120px)] lg:sticky lg:top-24">
+            <Map />
+          </div>
         </div> :
           <TripPlan plans={plans} task={"save"} />
         )
