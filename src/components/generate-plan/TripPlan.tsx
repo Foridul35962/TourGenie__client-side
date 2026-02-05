@@ -149,6 +149,8 @@ const TripPlan = ({ plans, task }: { plans: any, task?: string }) => {
                     src={hotel.imageUrl || placeholder}
                     alt={hotel.hotelName}
                     fill
+                    placeholder='blur'
+                    blurDataURL={placeholder.src}
                     className="object-cover group-hover:scale-110 transition-transform duration-1000"
                   />
                   <div className="absolute top-5 left-5 bg-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase text-red-600 tracking-widest shadow-xl">
@@ -188,6 +190,8 @@ const TripPlan = ({ plans, task }: { plans: any, task?: string }) => {
                           src={act.imageUrl || placeholder}
                           alt={act.placeName}
                           fill
+                          placeholder='blur'
+                          blurDataURL={placeholder.src}
                           className="object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                       </div>

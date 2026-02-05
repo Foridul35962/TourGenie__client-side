@@ -76,6 +76,8 @@ const MyPlanPage = () => {
                     src={placeholder}
                     alt={item.plan.tripName}
                     fill
+                    placeholder="blur"
+                    blurDataURL={placeholder.src}
                     className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
                   />
                   <div className="absolute top-5 left-5 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black uppercase text-red-600 tracking-widest shadow-sm">
